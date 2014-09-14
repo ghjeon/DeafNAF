@@ -1,0 +1,88 @@
+@(devices:List[models.Device], currentIndex:Int, total:Int, count:Int = 30)
+
+@import scala.concurrent.ExecutionContext.Implicits.global
+
+@views.html.common.header("device")
+<script type="text/javascript" src="/assets/javascripts/jquery.twbsPagination.js"></script>
+<script type="text/javascript">
+$(document).ready (function () {
+    $("#pagination").twbsPagination({
+        totalPages:@total,
+        startPage:@currentIndex,
+        visiblePages:10,
+        href:"/manage/log/{{number}}?count=@count"
+    });
+});
+</script>
+
+<div class="container" role="main">
+    <div class="page-header">
+        <h1>장치 관리</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="deviceList" class="table">
+                <tr>
+                    <th>uid</th>
+                    <th>이름</th>
+                    <th>광역단위</th>
+                    <th>자치단위</th>
+                    <th>위치</th>
+                    <th>위도</th>
+                    <th>경도</th>
+                    <th>방향</th>
+                    <th>최근 상태</th>
+                    <th>최근 이용일</th>
+                    <th>최근 점검일</th>
+                    <th>최근 갱신일</th>
+                </tr>
+                @for(d<-devices) {
+                    <tr>
+                        <td>
+                            @d._id
+                        </td>
+                        <td>
+                            @d.name
+                        </td>
+                        <td>
+                            @d.state
+                        </td>
+                        <td>
+                            @d.city
+                        </td>
+                        <td>
+                            @d.address
+                        </td>
+                        <td>
+                            @d.latitude
+                        </td>
+                        <td>
+                            @d.longitude
+                        </td>
+                        <td>
+                            @d.bearing
+                        </td>
+                        <td>
+                            @d.lastStatus
+                        </td>
+                        <td>
+                            @d.lastAccess
+                        </td>
+                        <td>
+                            @d.lastChecked
+                        </td>
+                        <td>
+                            @d.lastUpdate
+                        </td>
+                    </tr>
+                }
+            </table>
+            <a href="/device/set" class="btn btn-primary">
+                추가
+            </a>
+        </div>
+        <div class="col-md-12">
+            <ul id="pagination" class="pagination-sm" style="float : right ;" />
+        </div>
+    </div>
+@views.html.common.footer()

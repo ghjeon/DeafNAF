@@ -1,0 +1,93 @@
+@import scala.concurrent.ExecutionContext.Implicits.global
+
+@views.html.common.header("device")
+<style type="text/css">
+</style>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDrE5sQ-xZHAhFD_lMwMey8Ju8g9DA-yc8&sensor=FALSE"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        initialize();
+    });
+    var map;
+    var marker;
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(37.58767667651614, 126.9935417175293),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+            $("#latitude").val(event.latLng.k);
+            $("#longitude").val(event.latLng.B);
+        });
+    }
+    function placeMarker(location) {
+        if(marker != null)
+            marker.setVisible(false);
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+
+        map.setCenter(location);
+    }
+</script>
+<div class="container" role="main">
+    <div class="page-header">
+        <h1>장치 추가</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="height:500px;">
+            <div id="map_canvas" style="width:100%; height:100%"></div>
+        </div>
+        <div class="col-md-3">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <table id="deviceSet" class="table">
+                <form action="/device/set/process" method="POST">
+                <tr>
+                    <th>이름</th>
+                    <td><input type="text" name="name" /></td>
+                </tr>
+                <tr>
+                    <th>광역단위</th>
+                    <td><input type="text" name="state" /></td>
+                </tr>
+                <tr>
+                    <th>자치단위</th>
+                    <td><input type="text" name="city" /></td>
+                </tr>
+                <tr>
+                    <th>위치</th>
+                    <td><input type="text" name="address" /></td>
+                </tr>
+                <tr>
+                    <th>위도</th>
+                    <td><input type="text" id="latitude" name="latitude" /></td>
+                </tr>
+                <tr>
+                    <th>경도</th>
+                    <td><input type="text" id="longitude" name="longitude" /></td>
+                </tr>
+                <tr>
+                    <th>방향</th>
+                    <td><input type="text" name="bearing" /></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-algin:center; float:right;">
+                        <input type="submit" class="btn btn-primary" value="등록" />
+                        <input type="button" onClick="history.back(-1);" class="btn btn-danger" value="취소" />
+                    </th>
+                </tr>
+                </form>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <ul id="pagination" class="pagination-sm" style="float : right ;" />
+        </div>
+    </div>
+@views.html.common.footer()
