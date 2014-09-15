@@ -45,9 +45,9 @@ object Application extends Controller {
     request =>
       val body = request.body
       val name = body.getOrElse("name", dummyList)(0).toString
-      val latitude = body.getOrElse("latitude", dummyListDouble).toString.toDouble
-      val longitude = body.getOrElse("longtitude",dummyListDouble).toString.toDouble
-      val bearing = body.getOrElse("bearing", dummyList).toString
+      val latitude = body.getOrElse("latitude", dummyListDouble)(0).toString.toDouble
+      val longitude = body.getOrElse("longitude",dummyListDouble)(0).toString.toDouble
+      val bearing = body.getOrElse("bearing", dummyList)(0).toString
       val state = body.getOrElse("state", dummyList)(0).toString
       val city = body.getOrElse("city", dummyList)(0).toString
       val address = body.getOrElse("address", dummyList)(0).toString
@@ -61,7 +61,7 @@ object Application extends Controller {
       models.Device.set(device).map {
         status =>
           if(status.ok)
-            Redirect("/device/list/1")
+            Redirect("/device/list/1?count=30")
           else
             InternalServerError("작업에 실패했습니다.")
       }
@@ -85,8 +85,8 @@ object Application extends Controller {
       models.Device.findById(_id).flatMap {
         target=>
           val name = body.getOrElse("name", dummyList)(0).toString
-          val latitude = body.getOrElse("latitude", dummyListDouble).toString.toDouble
-          val longitude = body.getOrElse("longitude",dummyListDouble).toString.toDouble
+          val latitude = body.getOrElse("latitude", dummyListDouble)(0).toString.toDouble
+          val longitude = body.getOrElse("longitude",dummyListDouble)(0).toString.toDouble
           val bearing = body.getOrElse("bearing", dummyList)(0).toString
           val state = body.getOrElse("state", dummyList)(0).toString
           val city = body.getOrElse("city", dummyList)(0).toString

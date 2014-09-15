@@ -3,11 +3,13 @@
 # ~~~~
 
 # Home page
-GET        /                          controllers.Application.index
+GET         /                          controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file              controllers.Assets.at(path="/public", file)
+GET         /assets/*file              controllers.Assets.at(path="/public", file)
 
-GET        /device/list/:index        controllers.Application.manage_DeviceList(index:Int, count:Int)
-GET        /device/set                controllers.Application.manage_DeviceAdd()
-POST       /device/set/process        controllers.Application.setDevice()
+GET         /device/list/:index        controllers.Application.manage_DeviceList(index:Int, count:Int)
+GET         /device/set                controllers.Application.manage_DeviceAdd()
+POST        /device/set/process        controllers.Application.setDevice()
+
+GET         /get                       controllers.Application.get(lastUpdate:Long)
